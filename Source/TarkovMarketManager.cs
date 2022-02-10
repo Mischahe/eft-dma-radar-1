@@ -23,29 +23,22 @@ namespace eft_dma_radar
         public static void UpdateMarketItems()
         {
             var marketItems = new List<TarkovMarketItem>();
-            if (File.Exists("market.key"))
+            if (!File.Exists("market.json") ||
+File.GetLastWriteTime("market.json").AddHours(24) < DateTime.Now)
             {
-                if (!File.Exists("market.json") ||
-    File.GetLastWriteTime("market.json").AddHours(24) < DateTime.Now)
+                using (WebClient client = new WebClient())
                 {
-                    using (WebClient client = new WebClient())
-                    {
-                        string key = File.ReadAllLines("market.key")[0]; // Read key externally from file
-                        string json = client.DownloadString($"https://tarkov-market.com/api/v1/items/all?x-api-key={key}");
-                        marketItems = JsonSerializer.Deserialize<List<TarkovMarketItem>>(json);
-                        File.WriteAllText("market.json", json);
-                    }
-                }
-                else
-                {
-                    var json = File.ReadAllText("market.json");
+                    WebRequest request = WebRequest.Create(@"https://market_master.filter-editor.com/data/marketData_en.json");
+                    using WebResponse response = request.GetResponse();
+                    string json = client.DownloadString(response.ResponseUri);
                     marketItems = JsonSerializer.Deserialize<List<TarkovMarketItem>>(json);
+                    File.WriteAllText("market.json", json);
                 }
             }
             else
             {
-                File.Create("market.key");
-                MessageBox.Show("No Tarkov Market API key provided. Please put in 'market.key' file.");
+                var json = File.ReadAllText("market.json");
+                marketItems = JsonSerializer.Deserialize<List<TarkovMarketItem>>(json);
             }
 
 #pragma warning disable CS8604 // Possible null reference argument.

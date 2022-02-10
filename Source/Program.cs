@@ -18,7 +18,7 @@ namespace eft_dma_radar
                 _mutex = new Mutex(true, "9A19103F-16F7-4668-BE54-9A1E7A4F7556", out bool singleton);
                 if (singleton)
                 {
-                    TarkovMarketManager.UpdateMarketItems(); // Comment this out if you don't have an API Key
+                    TarkovMarketManager.UpdateMarketItems();
                     ApplicationConfiguration.Initialize();
 					Application.Run(new MainForm());
                 }
