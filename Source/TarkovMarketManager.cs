@@ -11,7 +11,6 @@ namespace eft_dma_radar
 {
     internal static class TarkovMarketManager
     {
-        public static bool Startup;
         private static Dictionary<string, TarkovMarketItem> _filteredItems = new Dictionary<string, TarkovMarketItem>();
 
         public static Dictionary<string, TarkovMarketItem> ItemFilter
@@ -21,7 +20,7 @@ namespace eft_dma_radar
                 return _filteredItems;
             }
         }
-        static TarkovMarketManager()
+        public static void UpdateMarketItems()
         {
             var marketItems = new List<TarkovMarketItem>();
             if (File.Exists("market.key"))

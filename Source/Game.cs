@@ -157,7 +157,7 @@ namespace eft_dma_radar
                 _rgtPlayers.UpdateAllPlayers(); // Update all player locations,etc.
                 if (_lootEngine is null)
                 {
-                    _lootEngine = new LootEngine(_localGameWorld);
+                    _lootEngine = new LootEngine(_localGameWorld); // Comment this out to disable loot
                 }
             }
             catch
