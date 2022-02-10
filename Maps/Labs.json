@@ -1,0 +1,21 @@
+{
+	"x": 3107,
+	"y": -1062,
+	"z": 0,
+	"scale": 8.22,
+	"maps": [
+		{
+			"Item1": -100,
+			"Item2": "Maps\\Labs_0f.png"
+		},
+				{
+			"Item1": -1,
+			"Item2": "Maps\\Labs_1f.png"
+		}
+		,
+				{
+			"Item1": 3,
+			"Item2": "Maps\\Labs_2f.png"
+		}
+	]
+}
