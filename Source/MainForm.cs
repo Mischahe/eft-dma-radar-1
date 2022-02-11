@@ -58,7 +58,7 @@ namespace eft_dma_radar
         private readonly SKPaint _mapPaint = new SKPaint()
         {
             IsAntialias = true,
-            FilterQuality = SKFilterQuality.Medium
+            FilterQuality = SKFilterQuality.High
         };
         private readonly SKPaint _paintGreen = new SKPaint()
         {
@@ -232,9 +232,8 @@ namespace eft_dma_radar
 
         private async void MainForm_Shown(object sender, EventArgs e)
         {
-            //while (mapCanvas.GRContext is null) await Task.Delay(1);
-            // Gives a big FPS boost but appears to leak mem, see https://github.com/mono/SkiaSharp/issues/1947
-            //mapCanvas.GRContext.SetResourceCacheLimit(2000 * 1000 * 1000); // Fixes low FPS on big maps
+            while (mapCanvas.GRContext is null) await Task.Delay(1);
+            mapCanvas.GRContext.SetResourceCacheLimit(503316480); // Fixes low FPS on big maps
             while (true)
             {
                 await Task.Delay(1);
@@ -300,6 +299,7 @@ namespace eft_dma_radar
             {
                 if (_fpsWatch.ElapsedMilliseconds >= 1000)
                 {
+                    mapCanvas.GRContext.PurgeResources(); // Seems to fix mem leak issue on increasing resource cache
                     this.Text = $"EFT Radar ({_fps} fps) ({Memory.Ticks} mem/s)";
                     _fpsWatch.Restart();
                     _fps = 0;
